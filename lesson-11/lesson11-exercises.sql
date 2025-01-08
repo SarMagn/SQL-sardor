@@ -260,3 +260,12 @@ SELECT
         WHERE inner_table.InventoryDate <= outer_table.InventoryDate
     ) AS RunningBalance
 FROM #Inventory AS outer_table;
+
+
+
+select DATEDIFF(DAY,'2002-06-06',GETDATE()) as DaysILived , DATENAME(WEEKDAY,DATEDIFF(DAY,'2002-06-06',GETDATE())) as DayofMyBirth
+
+select DATEDIFF(DAY,'1976-07-31',GETDATE()), DATENAME(WEEKDAY,DATEDIFF(DAY,'1976-07-31',GETDATE()))
+
+
+select dateadd(MONTH, 1, GETDATE())-DATEDIFF(DAY,,GETDATE())
