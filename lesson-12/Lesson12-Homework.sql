@@ -1,0 +1,6 @@
+
+
+
+
+
+SELECT DATEADD(DAY, 1 - DAY('2024-08-25'), '2024-08-25') AS FirstDayOfMonth;
