@@ -198,8 +198,13 @@ select *, cast( SaleAmount  - AVG(SaleAmount) over (partition by department)as d
 
 
 
+select * , SUM(salary) over   from employee.Employees 
 
 
 
 
+
+where exists (select AVG(salary) from  employee.Employees  b where a.emp_name = b.emp_name)
+
+select avg(salary) from employee.Employees
 
