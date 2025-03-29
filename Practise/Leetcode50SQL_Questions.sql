@@ -62,6 +62,8 @@ select  distinct machine_id ,AVG( timestamp - res) over (partition by machine_id
 over (partition by machine_id order by process_id) as res from Activity) as a
 where activity_type = 'end'
 
+select * from activity
+
 
 	SELECT a1.machine_id, AVG(a2.timestamp-a1.timestamp) as  processing_time
 	FROM Activity a1
@@ -268,14 +270,78 @@ use Movies
 
 
 select * from tblActor
+s
+drop table Employees
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name NVARCHAR(100),
+    Position NVARCHAR(50)
+);
+
+
+INSERT INTO Employees (EmployeeID, Name, Position) VALUES 
+(101, 'Alice', 'Manager'),
+(102, 'Bob', 'Engineer'),
+(104, 'Charlie', 'Analyst'),
+(105, 'David', 'Engineer'),
+(107, 'Emily', 'HR');
+
+
+select * from Employees
+
+
+
+WITH NumberedEmployees AS (
+    SELECT EmployeeID, 
+           LAG(EmployeeID) OVER (ORDER BY EmployeeID) AS PrevID,
+           LEAD(EmployeeID) OVER (ORDER BY EmployeeID) AS NextID
+    FROM Employees
+)
+SELECT PrevID + 1 AS MissingID, *
+FROM NumberedEmployees
+WHERE PrevID + 1 <> EmployeeID;
+
+
+
+
+select * from Employees
+--declare @minID int 
+--declare @maxId int 
+
+CREATE TABLE NumbersTable (
+    Number INT
+);
+declare @minID int 
+declare @maxId int 
+set @minID = (select MIN(EmployeeID) from Employees)
+set @maxId = (select max(EmployeeID) from Employees)
+
+
+WHILE @minID <= @maxId  -- Change 10 to the desired upper limit
+BEGIN
+    INSERT INTO NumbersTable (Number) VALUES (@minID);
+    SET @minID = @minID + 1;  -- Increment counter
+END;
 
 
 
 
 
+select n.Number from NumbersTable n
+left join Employees as e on e.EmployeeID = n.Number
+where n.Number not in (select EmployeeID from Employees)
 
-
-
+with number as (
+    select min(EmployeeID) as b
+    from Employees
+    union all
+    select b + 1 
+    from number
+    where b + 1 <= (select max(EmployeeID) from  Employees )
+)
+select b from number
+where b NOT IN (select EmployeeID from Employees)
 
 
 
